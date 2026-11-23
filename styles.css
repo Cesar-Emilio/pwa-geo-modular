@@ -1,0 +1,298 @@
+/* Neo-brutalismo suave: bordes y sombras sólidas, sin negro puro ni colores saturados */
+:root {
+  --fondo: #f1ece2;
+  --papel: #fbf8f2;
+  --tinta: #3a3631;
+  --tinta-suave: #6f6a62;
+  --linea: #4a4640;
+  --salvia: #bcd3c2;
+  --durazno: #f0cfae;
+  --lavanda: #d4cbe6;
+  --arcilla: #e6b3a8;
+  --mostaza: #ecd9a0;
+  --borde: 2px solid var(--linea);
+  --sombra: 4px 4px 0 var(--linea);
+  --radio: 6px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+}
+
+body {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+h2 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0 0 10px;
+}
+
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+/* ---------- Cabecera con el nombre ---------- */
+.cabecera {
+  background: var(--durazno);
+  border: var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.cabecera-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.autor {
+  margin: 14px 0 6px;
+  font-size: clamp(1.9rem, 9vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.subtitulo {
+  margin: 0;
+  color: var(--tinta-suave);
+  font-size: 0.95rem;
+}
+
+.etiqueta {
+  display: inline-block;
+  padding: 2px 8px;
+  background: var(--papel);
+  border: var(--borde);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Tarjetas ---------- */
+.card {
+  background: var(--papel);
+  border: var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.card-salvia { background: var(--salvia); }
+.card-lavanda { background: var(--lavanda); }
+.card-arcilla { background: var(--arcilla); }
+
+.card p {
+  margin: 0 0 10px;
+}
+
+.card ul {
+  margin: 0 0 10px;
+  padding-left: 20px;
+}
+
+.nota {
+  color: var(--tinta-suave);
+  font-size: 0.9rem;
+}
+
+.ayuda {
+  background: var(--papel);
+  border: 2px dashed var(--linea);
+  border-radius: var(--radio);
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+}
+
+/* ---------- Formularios ---------- */
+label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+input,
+textarea,
+select {
+  display: block;
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  background: var(--papel);
+  color: var(--tinta);
+  border: var(--borde);
+  border-radius: var(--radio);
+  font: inherit;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  box-shadow: 3px 3px 0 var(--linea);
+}
+
+/* ---------- Ubicación ---------- */
+.bloque-ubicacion {
+  background: var(--fondo);
+  border: var(--borde);
+  border-radius: var(--radio);
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.bloque-ubicacion .btn {
+  width: 100%;
+}
+
+.estado {
+  margin: 10px 0 0 !important;
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+}
+
+.resultado {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 2px dashed var(--linea);
+}
+
+.indicador {
+  display: inline-block;
+  padding: 4px 10px;
+  border: var(--borde);
+  border-radius: var(--radio);
+  box-shadow: 2px 2px 0 var(--linea);
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.indicador-alta { background: var(--salvia); }
+.indicador-aproximada { background: var(--mostaza); }
+.indicador-manual { background: var(--lavanda); }
+
+.datos {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 12px 0;
+  font-size: 0.9rem;
+}
+
+.datos dt {
+  font-weight: 700;
+}
+
+.datos dd {
+  margin: 0;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+.enlace {
+  color: var(--tinta);
+  font-weight: 700;
+}
+
+pre {
+  margin: 0;
+  padding: 12px;
+  background: var(--fondo);
+  border: var(--borde);
+  border-radius: var(--radio);
+  font-size: 0.8rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Botones ---------- */
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1 1 auto;
+  min-height: 44px;
+  padding: 10px 14px;
+  background: var(--salvia);
+  color: var(--tinta);
+  border: var(--borde);
+  border-radius: var(--radio);
+  box-shadow: 3px 3px 0 var(--linea);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+
+.btn:active:not(:disabled) {
+  transform: translate(3px, 3px);
+  box-shadow: 0 0 0 var(--linea);
+}
+
+.btn-papel { background: var(--papel); }
+.btn-durazno { background: var(--durazno); width: 100%; }
+
+.btn-chico {
+  flex: 0 0 auto;
+  min-height: 36px;
+  padding: 6px 12px;
+  background: var(--papel);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- Pie ---------- */
+.pie {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  color: var(--tinta-suave);
+  font-size: 0.85rem;
+}
+
+.pie-autor {
+  font-weight: 700;
+}

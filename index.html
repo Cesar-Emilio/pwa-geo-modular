@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Geo Modular PWA · Cesar Emilio Contreras Cortes</title>
+  <meta name="author" content="Cesar Emilio Contreras Cortes">
+  <meta name="description" content="Geolocalización consciente y reutilizable con geo-helper.js.">
+
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#f0cfae">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="GeoModular">
+  <link rel="icon" type="image/png" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div class="cabecera-fila">
+      <span class="etiqueta">PWA · Práctica 6.3</span>
+      <button id="btn-instalar" type="button" class="btn btn-chico" hidden>Instalar App</button>
+    </div>
+    <h1 class="autor">Cesar Emilio<br>Contreras Cortes</h1>
+    <p class="subtitulo">Geolocalización consciente y reutilizable — <code>geo-helper.js</code></p>
+  </header>
+
+  <main>
+    <section id="instrucciones-ios" class="card card-salvia" hidden>
+      <h2>Instalar en iPhone</h2>
+      <p>Pulsa el icono <strong>Compartir</strong> y selecciona <strong>'Agregar a inicio'</strong>.</p>
+    </section>
+
+    <!-- Uso 1: reporte técnico con coordenadas adjuntas -->
+    <section class="card">
+      <h2>Reporte técnico</h2>
+      <form id="form-reporte" novalidate>
+        <label for="titulo">Título</label>
+        <input type="text" id="titulo" placeholder="Ej. Fuga en válvula 4" required>
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" placeholder="Detalle técnico..."></textarea>
+
+        <div class="bloque-ubicacion">
+          <button id="btn-adjuntar-ubicacion" type="button" class="btn">Adjuntar mi ubicación</button>
+          <p id="estado-ubicacion" class="estado" role="status" aria-live="polite">
+            Sin ubicación adjunta. Tu ubicación solo se consulta cuando pulsas el botón.
+          </p>
+
+          <!-- Resultado + indicador de calidad de señal -->
+          <div id="resultado-ubicacion" class="resultado" hidden>
+            <span id="indicador-precision" class="indicador"></span>
+            <dl class="datos">
+              <dt>Latitud</dt><dd id="dato-latitud">—</dd>
+              <dt>Longitud</dt><dd id="dato-longitud">—</dd>
+              <dt>Precisión</dt><dd id="dato-precision">—</dd>
+              <dt>Origen</dt><dd id="dato-origen">—</dd>
+              <dt>Hora</dt><dd id="dato-hora">—</dd>
+            </dl>
+            <a id="enlace-mapa" class="enlace" href="#" target="_blank" rel="noopener" hidden>Ver en mapa ↗</a>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-durazno">Enviar reporte</button>
+      </form>
+    </section>
+
+    <!-- Tarjeta de Pre-Permiso (estado 'prompt') -->
+    <section id="aviso-ubicacion" class="card card-lavanda" hidden aria-labelledby="titulo-aviso">
+      <h2 id="titulo-aviso">¿Compartir tu ubicación?</h2>
+      <p id="aviso-motivo">
+        Necesitamos tu ubicación aproximada para adjuntar las coordenadas al reporte técnico
+        y calcular la sucursal más cercana.
+      </p>
+      <ul>
+        <li>Se realiza <strong>una sola lectura</strong>; no se rastrea tu movimiento.</li>
+        <li>Las coordenadas se quedan en este dispositivo hasta que envías el reporte.</li>
+        <li>Si prefieres no compartirla, puedes elegir tu zona manualmente.</li>
+      </ul>
+      <p class="nota">Al continuar, tu navegador mostrará su propio cuadro de permiso.</p>
+      <div class="controles">
+        <button id="btn-confirmar-ubicacion" type="button" class="btn">Compartir mi ubicación</button>
+        <button id="btn-cancelar-ubicacion" type="button" class="btn btn-papel">Elegir zona manualmente</button>
+      </div>
+    </section>
+
+    <!-- Plan B: selector manual de zona -->
+    <section id="selector-manual" class="card card-arcilla" hidden aria-labelledby="titulo-manual">
+      <h2 id="titulo-manual">Ingresa tu zona manualmente</h2>
+      <div id="ayuda-permiso" class="ayuda" hidden>
+        <p><strong>El permiso de ubicación está bloqueado.</strong> Para reactivarlo:</p>
+        <ul>
+          <li><strong>Android (Chrome):</strong> toca el candado junto a la dirección → Permisos → Ubicación → Permitir.</li>
+          <li><strong>iPhone:</strong> Ajustes → Privacidad → Localización → Safari (o la app instalada) → "Al usar la app".</li>
+          <li><strong>Escritorio:</strong> clic en el candado de la barra de direcciones → Ubicación → Permitir, y recarga.</li>
+        </ul>
+      </div>
+      <label for="zona-manual">Zona / ciudad</label>
+      <select id="zona-manual">
+        <option value="">Selecciona una zona...</option>
+      </select>
+      <label for="direccion-manual">Dirección o referencia (opcional)</label>
+      <input type="text" id="direccion-manual" placeholder="Calle, número, colonia">
+      <div class="controles">
+        <button id="btn-usar-zona" type="button" class="btn">Usar esta zona</button>
+      </div>
+    </section>
+
+    <!-- Uso 2: sucursal más cercana (lectura rápida de baja precisión) -->
+    <section class="card">
+      <h2>Sucursal más cercana</h2>
+      <p class="nota">Reutiliza el mismo módulo con <code>enableHighAccuracy: false</code> y caché de 60 s.</p>
+      <button id="btn-sucursal" type="button" class="btn btn-papel">Buscar sucursal cercana</button>
+      <p id="resultado-sucursal" class="estado" role="status" aria-live="polite" hidden></p>
+    </section>
+
+    <section id="salida-reporte" class="card" hidden>
+      <h2>Paquete generado</h2>
+      <p class="nota">Listo para enviar o encolar en IndexedDB.</p>
+      <pre id="json-reporte"></pre>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <span class="pie-autor">Cesar Emilio Contreras Cortes</span>
+    <span id="modo-visualizacion" class="etiqueta">Modo: navegador</span>
+  </footer>
+
+  <script src="./geo-helper.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

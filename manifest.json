@@ -1,0 +1,24 @@
+{
+  "name": "Geolocalización Modular PWA",
+  "short_name": "GeoModular",
+  "description": "Geolocalización consciente y reutilizable con geo-helper.js. Autor: Cesar Emilio Contreras Cortes.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f1ece2",
+  "theme_color": "#f0cfae",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
